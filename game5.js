@@ -32,17 +32,26 @@ var navigationErrorCount = 0;
 var sarcasmThreshold = 5;
 //itemCount is a global variable created to keep track of the amount of items gathered by the player.
 var itemCount=0;
+//dogLoc is a global variable created to keep track of the dog's Location.
 var dogLoc=3;
+//ghost is a global variable created to keep track of the status ghost.
 var ghost=false;
+//north is a global variable created to assign a number to North.
 var north = 0;
+//south is a global variable created to assign a number to South.
 var south = 1;
+//west is a global variable created to assign a number to West.
 var west = 2;
+//east is a global variable created to assign a number to East.
 var east = 3;
+//gameOver is a global variable created to keep track of the error of the player
 var gameOver = 0;
+//completeStage is a global variable created to keep track of the stages in the CompLab.
 var completeStage=-1;
+//bag is a global variable (array) created to store the items in the player's inventory.
 var bag= [];
 
-function Victory () {
+function Victory () { //Victory() takes no parameter. It displays when, in the location 2, going South, the player is able to win. The player wins when he/she satisfies all the requirements.
 	if(itemCount<5) {
 		dispMsg ("You haven't collected all the items");
 	} else {
@@ -59,12 +68,12 @@ function Victory () {
 	}	
 }
 
-function tutorial() { //Function tutorial() displays the message that explains the gameplay to the second text area.
+function tutorial() { //Function tutorial() displays the message that explains the gameplay, to the second text area.
 	scrollUp();
 	dispMsgSecond("--Tutorial--\n To move through the Map you can:\n   -Use the buttons.\n   -Type 'n', 's', 'w', or 'e'.\n   -Use the WASD Box to use WASD.\n Go find all the items in order to escape! \n R: To take | SpaceBar: To search\n X: To show the Inventory \n Use the map to help yourself navigate and find a way out.\n --/Tutorial-- \n \n \n");
 }
 
-function locat (newid) {
+function locat (newid) { //function locat(newid) takes a parameter, and it is the class for the rooms. It tells the basic attributes of every room.
 	this.id = newid;
 	this.name = "Room";
 	this.description = "It is a room.";
@@ -76,13 +85,14 @@ function locat (newid) {
 
 }
 
-function item () {
+function item () { //function item() takes no parameter, and it is the class for the items. It tells the basic attributes of every item.
 	this.name = "Item";
 	this.description = " ";
 	this.toString = function() {
 								return this.name;
 								}
 }
+
 
 var locArray = [];
 
@@ -93,7 +103,7 @@ var rune = new item();
 rune.name = " Rune";
 rune.description = "Freedom is achieved by the sum\n 10, obtained by summing 7 + 0 +\n 1 + 2. Then live the green\n again, move the animal and\n obtain the spirit. Spiderman\n will then be evil, remember!";
 
-function init(){ //init() function takes no parameter. It is the initial function that starts to work as soon as the page is opened, thanks to onload in the body tag in the HTML part of the program.
+function init(){ //init() function takes no parameter. It is the initial function that starts to work as soon as the page is opened, thanks to onload in the body tag in the HTML part of the program. It creates the instances of the rooms and the items.
 	
 	var knife = new item ();
 	knife.name = " Knife";
@@ -167,11 +177,11 @@ function init(){ //init() function takes no parameter. It is the initial functio
 	CompLab.name = "Computer Laboratory";
 	locArray.push(CompLab);
 	
-	currLoc = locArray[0].id;
+	currLoc = locArray[0].id; //The game starts in the Kitchen.
 	
 }
 
-function Over() {
+function Over() { //Over() takes not parameter. It is used to disable everything in the game when the player loses. It empties the inventory and the location becomes 0.
 	if (gameOver === 5 || currLoc === 5) {
 		dispMsg("GAME OVER\n\n\n\n");
 		bag=[];
@@ -192,36 +202,36 @@ function Over() {
 	}
 }
 
-function goNorth (){
+function goNorth (){ //goNorth() takes no parameter. It is used to go North from the current Location.
 	navigation(0);
 }
 
-function goSouth() {
+function goSouth() { //goSouth() takes no parameter. It is used to go South from the current Location.
 	navigation(1);
 }
 
-function goWest() {
+function goWest() { //goWest() takes no parameter. It is used to go West from the current Location.
 	navigation(2);
 }
 
-function goEast() {
+function goEast() { //goEast() takes no parameter. It is used to go East from the current Location.
 	navigation(3);
 }
 
-function navigation (dir){// function navigation() takes no parameter. It is done with the switch-case method which makes the code shorter. Depending on the value of currLoc, there are different cases that trigger.
+function navigation (dir){// function navigation(dir) takes a parameter. It is done with the switch-case method which makes the code shorter. Depending on the value of currLoc and dir, there are different cases that trigger.
 	document.getElementById("North").disabled = false;
 	document.getElementById("South").disabled = false;
 	document.getElementById("West").disabled = false;
 	document.getElementById("East").disabled = false;
 	document.getElementById("yes").disabled = true;
-	document.getElementById("no").disabled = true;
+	document.getElementById("no").disabled = true;//At the beginning of the game I decided to not block the buttons so that the function navigationError() can trigger and it is not useless.
 	scrollUp();
-	switch(currLoc) {//Disables the buttons that are unavailable because there are no rooms towards that direction
-		case 0: switch (dir) { //At the beginning of the game I decided to not block the buttons so that the function navigationError() can trigger and it is not useless.
+	switch(currLoc) {
+		case 0: switch (dir) {
 					case 0: currLoc = locArray [7].id;
 							dispMsg(locArray[7].description);
 							document.getElementById("map").src = "map7.jpg";
-							document.getElementById("North").disabled = true;
+							document.getElementById("North").disabled = true; //Disables the buttons that are unavailable because there are no rooms towards that direction
 							document.getElementById("West").disabled = true;
 							break;
 					case 1: currLoc = locArray [1].id;
@@ -413,7 +423,7 @@ function navigationError() { //function navigationError() takes no parameter. If
 }
 
 			
-function stageOne () {
+function stageOne () { //stageOne() takes no parameter. It is the first stage in the CompLab. The correct answer is 007.
 	var playerinput = document.getElementById("txtCommand").value;
 	if (playerinput === "" || playerinput === "e" || playerinput === "E") {
 		dispMsg("First Question:\n\nWhat is James Bond's favorite number?\n[Type your answer in the Command Box \nand click on 'Go']\n\n");
@@ -429,7 +439,7 @@ function stageOne () {
 	}
 }
 
-function stageTwo () {
+function stageTwo () { //stageTwo() takes no parameter. It is the second stage in the CompLab. The correct answer is YYNNYYNYNYNYYYN.
 	alert('stagetwo');
 	var playerinput = document.getElementById("txtCommand").value;
 	if (playerinput === "" || playerinput === "e" || playerinput === "E" || playerinput === "007") {
@@ -448,7 +458,7 @@ function stageTwo () {
 	}
 }
 
-function stageThree () {
+function stageThree () { //stageThree() takes no parameter. It is the third stage in the CompLab. If the player says yes, it goes to stageFour().
 	alert('stagethree');
 	var playerinput = document.getElementById("txtCommand").value;
 	if (playerinput === "" || playerinput === "e" || playerinput === "E" || playerinput === "YYNNYYNYN") {
@@ -464,7 +474,7 @@ function stageThree () {
 	}
 }
 
-function stageFour () {
+function stageFour () { //stageFour() takes no parameter. It is the four stage in the CompLab. The correct answer is 4, or four, or Four.
 	alert('stagefour');
 	var playerinput = document.getElementById("txtCommand").value;
 	if (playerinput === "" || playerinput === "e" || playerinput === "E" || playerinput === "YYNNYYNYNYNYYYN") {
@@ -483,34 +493,6 @@ function stageFour () {
 			gameOver+=1;
 			dispMsg("Wrong try again.\n\n\n");
 			Over();
-		}
-	}
-}
-
-var decision="";
-function Yes() {
-	scrollUp();
-	decision="yes";
-	if (locArray[currLoc].id === 10) {
-		if (completeStage===-1) {
-			completeStage=0;
-			dispMsg("First Question:\n\nWhat is James Bond's favorite number?\n[Type your answer in the Command Box \nand click on 'Go']\n\n");
-		} else {
-			if (completeStage===2) {
-				stageFour();
-			}
-		}
-	}
-	if ((locArray[currLoc].id === 6 || locArray[currLoc].id === 8) && (understandScroll===-1)) {
-		dispMsg("woosh...");
-	} else {
-		if (currLoc===8) {
-			dispMsg("A dog starts barking, it is against the window on the wall to the right");
-			dogLoc=8;
-		}
-		if (currLoc===6) {
-			dispMsg("You feel lighter... Almost as if you are a ghost. Random emotions pop into your head. The strongest one is arachnophobia. ");
-			ghost=true;
 		}
 	}
 }
@@ -596,11 +578,11 @@ function txtCommand_keyPress(keyboardEvent){ //function txtCommand_keyPress(keyb
 
 }
 
-function Rune () {
+function Rune () { //Rune() takes no parameter. It displays in the second Text Area the description of the item Rune.
 	dispMsgSecond(rune.description);
 }
 var understandScroll=-1;
-function Scroll () {
+function Scroll () { //Scroll() takes no parameter. It displays in the Text Area the description of the Scroll.
 	scrollUp();
 	if (understandScroll===3) {
 		dispMsg("The scroll says: ''Guided by the light. Air is sacred, five is freedom.''");
@@ -619,8 +601,35 @@ function Scroll () {
 	}
 }
 
+var decision="";
+function Yes() { //Yes() takes no parameter. It is linked to the button Yes. It has different utility depending on where the player currently is.
+	scrollUp();
+	decision="yes";
+	if (locArray[currLoc].id === 10) {
+		if (completeStage===-1) {
+			completeStage=0;
+			dispMsg("First Question:\n\nWhat is James Bond's favorite number?\n[Type your answer in the Command Box \nand click on 'Go']\n\n");
+		} else {
+			if (completeStage===2) {
+				stageFour();
+			}
+		}
+	}
+	if ((locArray[currLoc].id === 6 || locArray[currLoc].id === 8) && (understandScroll===-1)) {
+		dispMsg("woosh...");
+	} else {
+		if (currLoc===8) {
+			dispMsg("A dog starts barking, it is against the window on the wall to the right");
+			dogLoc=8;
+		}
+		if (currLoc===6) {
+			dispMsg("You feel lighter... Almost as if you are a ghost. Random emotions pop into your head. The strongest one is arachnophobia. ");
+			ghost=true;
+		}
+	}
+}
 
-function No() {
+function No() { //No() takes no parameter. It is linked to the button No. It has different utility depending on where the player currently is.
 	scrollUp();
 	decision="no";
 	if (locArray[currLoc].id === 10) {
@@ -640,11 +649,11 @@ function No() {
 	}
 }
 
-function GhostDeath() {
+function GhostDeath() { //GhostDeath() takes no parameter. It calls the function Over(), when the game is over.
 	Over();
 }
 
-function scrollUp () {
+function scrollUp () { //ScrollUp() takes no parameter. It scrolls up both Text Areas when something is displayed.
 	var textarea = document.getElementById("taMain");
 	var textareaScnd = document.getElementById("taSecond");
 	textarea.scrollTop = 0;
@@ -685,7 +694,7 @@ function checkScore() { //Function checkScore() takes no parameter. It checks if
 	}
 }         
 
-function search(){
+function search(){ //search() takes no parameter. It searches the item in the current room.
 	scrollUp();
 	if (locArray[currLoc].item != undefined) {
 		dispMsg("Searched: " + locArray[currLoc].item);
